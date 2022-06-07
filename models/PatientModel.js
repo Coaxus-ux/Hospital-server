@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-const adminSchema = mongoose.Schema({
+const patientSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -17,6 +17,12 @@ const adminSchema = mongoose.Schema({
         trim: true,
         unique: true,
     },
+    citizenshipCard:{
+        type: String,
+        required: true,
+        trim: true,
+        unique: true,
+    },
     email:{
         type: String,
         required: true,
@@ -27,6 +33,15 @@ const adminSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    phoneNumber:{
+        type: String,
+        required: true,
+        trim: true,
+    },
+    birthDate:{
+        type: Date,
+        required: true,
     },
     token:{
         type: String,
@@ -42,20 +57,20 @@ const adminSchema = mongoose.Schema({
     },
     userType:{
         type: String,
-        default: "admin",
+        default: "patient",
     }
 }, {
     timestamps: true,
 });
-adminSchema.pre('save', async function(next){
+patientSchema.pre('save', async function(next){
     if(!this.isModified('password')){
         next();
     }
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 });
-adminSchema.methods.comprobarPassword = async function(password){
+patientSchema.methods.comparePassword = async function(password){
     return await bcrypt.compare(password, this.password);
 }
-const Admin = mongoose.model("Admin", adminSchema);
-export default Admin;
+const Patient = mongoose.model("Patient", patientSchema);
+export default Patient;

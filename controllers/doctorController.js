@@ -3,7 +3,7 @@ import PatientModel from '../models/PatientModel.js';
 import DoctorModel from '../models/DoctorModel.js';
 import createID from '../helpers/createID.js';
 
-const registerAdmin = async (req, res) => {
+const registerDoctor = async (req, res) => {
     const { email, emploeeId, citizenshipCard } = req.body;
     // multplie await
     const validations = await Promise.all([
@@ -19,19 +19,19 @@ const registerAdmin = async (req, res) => {
         DoctorModel.findOne({ citizenshipCard })
     ]);
     if (validations.some(validation => validation)) {
-        return res.status(400).json({
+        return res.json({
             msg: 'The email, emploeeId or citizenshipCard is already in use',
         });
     }
     try {
-        const admin = new AdminModel(req.body);
-        admin.token = createID();
-        const result = await admin.save();
+        const doctor = new DoctorModel(req.body);
+        doctor.token = createID();
+        const result = await doctor.save();
         res.json(result);
     } catch (error) {
-        console.log(`Error creating administrator  ${error}`);
+        console.log(`Error creating doctor  ${error}`);
     }
 }
 export {
-    registerAdmin
+    registerDoctor
 }

@@ -2,8 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import dataBaseConexion from "./config/dataBaseConexion.js";
-import userRoute from "./routes/userRoute.js";
+import patientRoute from "./routes/patientRoute.js";
 import adminRoute from "./routes/adminRoute.js";
+import doctorRoute from "./routes/doctorRoute.js";
+import generalRoute from "./routes/generalRoute.js";
 const app = express();
 app.use(express.json());
 dotenv.config();
@@ -22,11 +24,11 @@ const corsOptions = {
     }
   },
 };
-
 app.use(cors(corsOptions));
-
-app.use('/api/user', userRoute);
-app.use('/api/admin', adminRoute);
+app.use("/api/patient", patientRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/doctor", doctorRoute);
+app.use("/api/user", generalRoute);
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
