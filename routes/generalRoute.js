@@ -5,7 +5,7 @@ import {
 } from "../controllers/loginController.js";
 import {
     confirm
-} from "../controllers/ConfirmUserController.js";
+} from "../controllers/confirmUserController.js";
 
 router.post("/login", loginUser);
 router.get("/confirm/:token", confirm);
