@@ -39,10 +39,6 @@ const doctorSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
-    birthDate:{
-        type: Date,
-        required: true,
-    },
     token:{
         type: String,
         trim: true,

@@ -11,12 +11,6 @@ const patientSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
-    emploeeId: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-    },
     citizenshipCard:{
         type: String,
         required: true,
