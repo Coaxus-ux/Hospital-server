@@ -1,4 +1,4 @@
-import AdminModel from '../models/adminModel.js';
+import AdminModel from '../models/AdminModel.js';
 import PatientModel from '../models/PatientModel.js';
 import DoctorModel from '../models/DoctorModel.js';
 import createID from '../helpers/createID.js';
