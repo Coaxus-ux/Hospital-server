@@ -1,11 +1,18 @@
-import AdminModel from '../models/adminModel.js';
+import AdminModel from '../models/AdminModel.js';
 import PatientModel from '../models/PatientModel.js';
 import DoctorModel from '../models/DoctorModel.js';
 import createJWT from '../helpers/createJWT.js';
+import { emailValidator } from '../helpers/emailValidator.js';
 
 
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
+    if(!emailValidator(email)){
+        return res.json({
+            state: false,
+            msg: 'El correo electrónico no es válido'
+        });
+    }
     // multplie await
     const validation = await Promise.all([
         AdminModel.findOne({ email }),
