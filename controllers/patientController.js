@@ -1,13 +1,19 @@
-import AdminModel from '../models/adminModel.js';
+import AdminModel from '../models/AdminModel.js';
 import PatientModel from '../models/PatientModel.js';
 import DoctorModel from '../models/DoctorModel.js';
 import createID from '../helpers/createID.js';
 import { sendEmail } from '../helpers/emailSender.js';
-import Patient from '../models/PatientModel.js';
+import { emailValidator } from '../helpers/emailValidator.js';
+
 const registerPatient = async (req, res) => {
     const { email, citizenshipCard } = req.body;
     await delete req.body.emploeeId;
-
+    if(!emailValidator(email)){
+        return res.json({
+            state: false,
+            msg: 'El correo electrónico no es válido'
+        });
+    }
     // multplie await
     const validationEmail = await Promise.all([
         AdminModel.findOne({ email }),
@@ -32,6 +38,8 @@ const registerPatient = async (req, res) => {
             msg: 'La cédula ya está registrada'
         });
     }
+    // validar email
+    
     try {
         const patient = new PatientModel(req.body);
         patient.token = createID();

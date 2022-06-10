@@ -6,8 +6,8 @@ export const sendEmail = async (User) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: 'myhospitalprojectmail@gmail.com',
-      pass: 'atailwkfggsatnea',
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -51,7 +51,7 @@ export const sendEmail = async (User) => {
                                                 <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
                                                     Hola ${name}, Gracias por registrarte en MyHospital. Para confirmar tu cuenta, haz click en el siguiente enlace: 
                                                 </p>
-                                                <a href="http://localhost:4000/api/user/confirm//${token}"
+                                                <a href="${process.env.FRONTEND_URL}/confirm-account/${token}"
                                                     style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
                                                     Confirmar cuenta
                                                         </a>

@@ -2,10 +2,16 @@ import AdminModel from '../models/AdminModel.js';
 import PatientModel from '../models/PatientModel.js';
 import DoctorModel from '../models/DoctorModel.js';
 import createID from '../helpers/createID.js';
-
+import { emailValidator } from '../helpers/emailValidator.js';
 const registerDoctor = async (req, res) => {
     const { email, emploeeId, citizenshipCard } = req.body;
     // multplie await
+    if(!emailValidator(email)){
+        return res.json({
+            state: false,
+            msg: 'El correo electrónico no es válido'
+        });
+    }
     const validationEmail = await Promise.all([
         AdminModel.findOne({ email }),
         PatientModel.findOne({ email }),
