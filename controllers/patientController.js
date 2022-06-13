@@ -14,7 +14,6 @@ const registerPatient = async (req, res) => {
     });
   }
   const validation = await validator(email, false, citizenshipCard);
-  console.log(validation);
   if (!validation.state) {
     return res.json(validation.msg);
   }

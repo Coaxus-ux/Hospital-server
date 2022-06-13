@@ -22,7 +22,7 @@ const corsOptions = {
     }
   },
 };
-//app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use("/api/patient", patientRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/doctor", doctorRoute);

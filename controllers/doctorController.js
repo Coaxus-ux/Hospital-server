@@ -13,7 +13,6 @@ const registerDoctor = async (req, res) => {
     });
   }
   const validation = await validator(email, emploeeId, citizenshipCard);
-  console.log(validation);
   if (!validation.state) {
     return res.json(validation.msg);
   }
