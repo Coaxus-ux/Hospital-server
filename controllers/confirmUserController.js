@@ -12,14 +12,20 @@ const confirm = async (req, res) => {
     const userConfirm = validationToken.find(user => user);
     if (!userConfirm) {
       const error = new Error("Token no válido");
-      return res.json({ msg: error.message });
+      return res.json({ 
+        status: false,
+        msg: "Token no válido"
+      });
     }
   
     try {
       userConfirm.isConfirmed = true;
       userConfirm.token = "";
       await userConfirm.save();
-      res.json({ msg: "Usuario Confirmado Correctamente" });
+      res.json({ 
+        status: true,
+        msg: "Usuario Confirmado Correctamente" 
+      });
     } catch (error) {
       console.log(error);
     }

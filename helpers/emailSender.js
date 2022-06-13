@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
 export const sendEmail = async (User) => {
   const { email, name, token } = User;
 
@@ -51,7 +50,7 @@ export const sendEmail = async (User) => {
                                                 <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
                                                     Hola ${name}, Gracias por registrarte en MyHospital. Para confirmar tu cuenta, haz click en el siguiente enlace: 
                                                 </p>
-                                                <a href="${process.env.FRONTEND_URL}/confirm-account/${token}"
+                                                <a href="${process.env.FRONTEND_URL}/activate-account/${token}"
                                                     style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
                                                     Confirmar cuenta
                                                         </a>
