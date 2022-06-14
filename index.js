@@ -22,11 +22,11 @@ const corsOptions = {
     }
   },
 };
-app.use(cors(corsOptions));
-app.use("/api/patient", patientRoute);
-app.use("/api/admin", adminRoute);
-app.use("/api/doctor", doctorRoute);
-app.use("/api/user", generalRoute);
+//app.use(cors(corsOptions));
+app.use("/api/patient",cors(), patientRoute);
+app.use("/api/admin", cors(), adminRoute);
+app.use("/api/doctor", cors(), doctorRoute);
+app.use("/api/user",cors(), generalRoute);
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
