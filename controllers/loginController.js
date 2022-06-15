@@ -13,12 +13,13 @@ const loginUser = async (req, res) => {
             msg: 'El correo electrónico no es válido'
         });
     }
-    // multplie await
+
     const validation = await Promise.all([
         AdminModel.findOne({ email }),
         PatientModel.findOne({ email }),
         DoctorModel.findOne({ email }),
     ]);
+    
     const user = validation.find(user => user);
     if (!user) {
         return res.json({ msg: 'User not found' });
@@ -26,6 +27,7 @@ const loginUser = async (req, res) => {
     if (!user.isConfirmed) {
         return res.json({ msg: 'User not confirmed' });
     }
+    
     if (await user.comparePassword(password)) {
         return res.json({
             _id: user._id,
