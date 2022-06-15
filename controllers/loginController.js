@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
             name: user.name + ' ' + user.lastName,
             email: user.email,
             userType: user.userType,
-            token: createJWT(user._id)
+            token: createJWT(user._id, user.userType),
         });
     } else {
         return res.json({ msg: 'Password incorrect' });
