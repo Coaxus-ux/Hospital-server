@@ -1,6 +1,6 @@
 import PatientModel from "../models/PatientModel.js";
 import createID from "../helpers/createID.js";
-import { sendEmail } from "../helpers/emailSender.js";
+import { registerEmail } from "../helpers/emailSender.js";
 import { emailValidator } from "../helpers/emailValidator.js";
 import validator from "../helpers/validatorUnique.js";
 
@@ -34,5 +34,6 @@ const registerPatient = async (req, res) => {
     console.log(`Error creating patient ${error}`);
   }
 };
+
 
 export { registerPatient };

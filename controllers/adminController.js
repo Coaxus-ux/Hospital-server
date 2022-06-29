@@ -1,11 +1,11 @@
 import AdminModel from "../models/AdminModel.js";
 import createID from "../helpers/createID.js";
-import { sendEmail } from "../helpers/emailSender.js";
+import { registerEmail } from "../helpers/emailSender.js";
 import { emailValidator } from "../helpers/emailValidator.js";
 import validator from "../helpers/validatorUnique.js";
+
 const registerAdmin = async (req, res) => {
   const { email, emploeeId, citizenshipCard } = req.body;
-  // multplie await
   if (!emailValidator(email)) {
     return res.json({
       state: false,
