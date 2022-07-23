@@ -7,6 +7,7 @@ import adminRoute from "./routes/adminRoute.js";
 import doctorRoute from "./routes/doctorRoute.js";
 import generalRoute from "./routes/generalRoute.js";
 import appointmentRoute from "./routes/appointmentRoute.js";
+import surgeryRoute from "./routes/surgeryRoute.js";
 const app = express();
 app.use(express.json());
 dotenv.config();
@@ -29,9 +30,9 @@ app.use("/api/admin", cors(), adminRoute);
 app.use("/api/doctor", cors(), doctorRoute);
 app.use("/api/user",cors(), generalRoute);
 app.use("/api/appointment", cors(), appointmentRoute);
-
-
+app.use("/api/surgery", cors(), surgeryRoute);
 app.use("/api/imgs", express.static("./uploads/userImages"));
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

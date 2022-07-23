@@ -21,7 +21,7 @@ const registerPatient = async (req, res) => {
     const patient = new PatientModel(req.body);
     patient.token = createID();
     const result = await patient.save();
-    sendEmail({
+    registerEmail({
       email: result.email,
       name: result.name,
       token: result.token,
@@ -34,6 +34,24 @@ const registerPatient = async (req, res) => {
     console.log(`Error creating patient ${error}`);
   }
 };
+const getPatientsByCitizenshipCard = async (req, res) => {
+  console.log(req.body);
+  const { citizenshipCard } = req.body;
+  try {
+    const result = await PatientModel.find({ citizenshipCard });
+    if (result.length === 0) {
+      return res.json({
+        state: false,
+        msg: "No se encontraron resultados",
+      });
+    }
+    res.json({
+      state: true,
+      result: result,
+    });
+  } catch (error) {
+    console.log(`Error getting patient by citizenshipCard ${error}`);
+  }
+}
 
-
-export { registerPatient };
+export { registerPatient, getPatientsByCitizenshipCard };

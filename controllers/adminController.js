@@ -20,7 +20,7 @@ const registerAdmin = async (req, res) => {
     const admin = new AdminModel(req.body);
     admin.token = createID();
     const result = await admin.save();
-    sendEmail({
+    registerEmail({
       email: result.email,
       name: result.name,
       token: result.token,

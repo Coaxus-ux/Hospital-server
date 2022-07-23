@@ -19,7 +19,7 @@ const registerDoctor = async (req, res) => {
     const doctor = new DoctorModel(req.body);
     doctor.token = createID();
     const result = await doctor.save();
-    sendEmail({
+    registerEmail({
       email: result.email,
       name: result.name,
       token: result.token,
@@ -32,5 +32,15 @@ const registerDoctor = async (req, res) => {
     console.log(`Error creating doctor  ${error}`);
   }
 };
-
-export { registerDoctor };
+const getDoctors = async (req, res) => {
+  try {
+    const doctors = await DoctorModel.find({});
+    res.json({
+      state: true,
+      result: doctors,
+    });
+  } catch (error) {
+    console.log(`Error getting doctors  ${error}`);
+  }
+}
+export { registerDoctor, getDoctors };

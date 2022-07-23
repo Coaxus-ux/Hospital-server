@@ -1,4 +1,4 @@
-/* import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import Doctor from "../models/Doctor.js";
 
 const checkAuth = async (req, res, next) => {
@@ -30,4 +30,4 @@ const checkAuth = async (req, res, next) => {
   next();
 };
 
-export default checkAuth; */
+export default checkAuth;

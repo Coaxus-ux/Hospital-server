@@ -11,8 +11,7 @@ const surgerySchema = mongoose.Schema({
     required: true,
   },
   city: {
-    type: mongoose.Schema.Types.cities,
-    ref: "departments",
+    type: String,
     required: true,
   },
   status: {

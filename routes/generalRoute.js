@@ -19,7 +19,7 @@ const router = express.Router();
 
 router.post("/login", loginUser);
 router.get("/confirm/:token", confirm);
-router.get("/JWTValidator/:jwtToken", JWTValidator)
+router.get("/JWTValidator/:jwtToken", JWTValidator);
 router.get("/departments", getDepartments);
 router.get("/passwordRecovery", passwordRecovery);
 router.post("/newPassword/:token", newPassword);
