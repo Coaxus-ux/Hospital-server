@@ -9,6 +9,7 @@ import generalRoute from "./routes/generalRoute.js";
 import appointmentRoute from "./routes/appointmentRoute.js";
 import surgeryRoute from "./routes/surgeryRoute.js";
 import medicineRoute from "./routes/medicineRoute.js";
+import appointmentDataRoute from "./routes/appointmentDataRoute.js";
 const app = express();
 app.use(express.json());
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api/user",cors(), generalRoute);
 app.use("/api/appointment", cors(), appointmentRoute);
 app.use("/api/surgery", cors(), surgeryRoute);
 app.use("/api/medicine", cors(), medicineRoute);
+app.use("/api/appointmentData", cors(), appointmentDataRoute);
 app.use("/api/imgs", express.static("./uploads/userImages"));
 
 const PORT = process.env.PORT || 4000;
