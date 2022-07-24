@@ -21,6 +21,6 @@ router.post("/login", loginUser);
 router.get("/confirm/:token", confirm);
 router.get("/JWTValidator/:jwtToken", JWTValidator);
 router.get("/departments", getDepartments);
-router.get("/passwordRecovery", passwordRecovery);
-router.post("/newPassword/:token", newPassword);
+router.post("/passwordRecovery", passwordRecovery);
+router.post("/newPassword", newPassword);
 export default router;

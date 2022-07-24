@@ -5,6 +5,7 @@ import { passwordRecoveryEmail } from '../helpers/emailSender.js';
 import createID from '../helpers/createID.js';
 
 const passwordRecovery = async (req, res) => {
+  console.log(req.body);
   const { email } = req.body;
   const validation = await Promise.all([
     AdminModel.findOne({ email }),
@@ -41,7 +42,7 @@ const passwordRecovery = async (req, res) => {
   }
 };
 const newPassword = async (req, res) => {
-    const { token } = req.params;
+    const { token } = req.body;
     const { password } = req.body;
     const user = await Promise.all([
         AdminModel.findOne({ token }),

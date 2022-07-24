@@ -132,7 +132,7 @@ export const passwordRecoveryEmail = async (User) => {
                                                   <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
                                                       Hola ${name}, para recuperar tu contraseña, haz click en el siguiente enlace:: 
                                                   </p>
-                                                  <a href="${process.env.FRONTEND_URL}/passwordRecovery/${token}"
+                                                  <a href="${process.env.FRONTEND_URL}/new-password/${token}"
                                                       style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
                                                       Cambiar contraseña
                                                           </a>

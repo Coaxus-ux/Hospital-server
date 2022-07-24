@@ -43,4 +43,28 @@ const getDoctors = async (req, res) => {
     console.log(`Error getting doctors  ${error}`);
   }
 }
-export { registerDoctor, getDoctors };
+const getDoctorsById = async (req, res) => {
+  const { id } = req.body;
+  if(!id) {
+    return res.json({
+      state: false,
+      msg: "El id es requerido"
+    })
+  }
+  try {
+    const doctor = await DoctorModel.findById(id);
+    if(!doctor) {
+      return res.json({
+        state: false,
+        msg: "El doctor no existe"
+      })
+    }
+    res.json({
+      state: true,
+      result: doctor,
+    });
+  } catch (error) {
+    console.log(`Error getting doctor  ${error}`);
+  }
+}
+export { registerDoctor, getDoctors, getDoctorsById };

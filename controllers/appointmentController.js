@@ -23,6 +23,16 @@ const createAppointment = async (req, res) => {
 const getAppointments = async (req, res) => {
   try {
     const allAppointment = await Appointment.find();
+    for (let i = 0; i < allAppointment.length; i++) {
+      const doctor = await DoctorModel.findById(allAppointment[i].doctorId);
+      const patient = await PatientModel.findById(allAppointment[i].patientId);
+      allAppointment[i] = {
+        ...allAppointment[i]._doc,
+        doctor: doctor.name + " " + doctor.lastName,
+        patient: patient.name + " " + patient.lastName,
+      };
+    }
+    console.log(allAppointment);
     res.json({
       state: true,
       result: allAppointment,
@@ -40,8 +50,8 @@ const getAppointment = async (req, res) => {
     });
   }
   try {
-    const result = await Appointment.find({doctorId});
-    
+    const result = await Appointment.find({ doctorId });
+
     res.json({
       state: true,
       result: result,
