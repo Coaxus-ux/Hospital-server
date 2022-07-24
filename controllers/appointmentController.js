@@ -115,10 +115,43 @@ const deleteAppointment = async (req, res) => {
   }
 };
 
+const getAppointmentByuser = async (req, res) => {
+  console.log(req.body.patientId);
+  const { patientId } = req.body;
+  if (!patientId) {
+    return res.json({
+      state: false,
+      msg: "Faltan datos",
+    });
+  }
+  try {
+    const result = await Appointment.find({patientId});
+
+    for(let i = 0; i < result.length; i++) {
+      const patient = await PatientModel.findById(result[i].patientId);
+      const doctor = await DoctorModel.findById(result[i].doctorId);
+      result[i] = {
+        ...result[i]._doc,
+        patient: patient.name + " " + patient.lastName,
+        doctor: doctor.name + " " + doctor.lastName,
+        patientEmail: patient.email,
+        patientPhone: patient.phoneNumber
+      }
+    }
+    res.json({
+      state: true,
+      result: result,
+    });
+  } catch (error) {
+    console.log(`Error getting appointment ${error}`);
+  }
+}
+
 export {
   createAppointment,
   getAppointments,
   getAppointment,
   updateAppointment,
   deleteAppointment,
+  getAppointmentByuser
 };
