@@ -1,6 +1,8 @@
 import Appointment from "../models/appointmentModel.js";
 import DoctorModel from "../models/DoctorModel.js";
 import PatientModel from "../models/PatientModel.js";
+import SurgeryModel from "../models/surgeryModel.js";
+import DepartmentModel from "../models/DepartmentModel.js";
 const createAppointment = async (req, res) => {
 
   if (!req.body.patientId || !req.body.doctorId || !req.body.date) {
@@ -116,7 +118,6 @@ const deleteAppointment = async (req, res) => {
 };
 
 const getAppointmentByuser = async (req, res) => {
-  console.log(req.body.patientId);
   const { patientId } = req.body;
   if (!patientId) {
     return res.json({
@@ -130,12 +131,18 @@ const getAppointmentByuser = async (req, res) => {
     for(let i = 0; i < result.length; i++) {
       const patient = await PatientModel.findById(result[i].patientId);
       const doctor = await DoctorModel.findById(result[i].doctorId);
+      const surgery = await SurgeryModel.findById(result[i].sugeryId); 
+      
+      const department = await DepartmentModel.findById(surgery.departmentId); 
       result[i] = {
         ...result[i]._doc,
         patient: patient.name + " " + patient.lastName,
         doctor: doctor.name + " " + doctor.lastName,
         patientEmail: patient.email,
-        patientPhone: patient.phoneNumber
+        patientPhone: patient.phoneNumber,
+        surgery: surgery.surgeryName,
+        department: department.departmentName,
+        city: surgery.city,
       }
     }
     res.json({
