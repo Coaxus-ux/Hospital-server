@@ -2,7 +2,7 @@ import Appointment from "../models/appointmentModel.js";
 import DoctorModel from "../models/DoctorModel.js";
 import PatientModel from "../models/PatientModel.js";
 const createAppointment = async (req, res) => {
-  console.log(req.body);
+
   if (!req.body.patientId || !req.body.doctorId || !req.body.date) {
     return res.json({
       state: false,
@@ -32,7 +32,6 @@ const getAppointments = async (req, res) => {
         patient: patient.name + " " + patient.lastName,
       };
     }
-    console.log(allAppointment);
     res.json({
       state: true,
       result: allAppointment,
@@ -51,6 +50,17 @@ const getAppointment = async (req, res) => {
   }
   try {
     const result = await Appointment.find({ doctorId });
+    for(let i = 0; i < result.length; i++) {
+      const patient = await PatientModel.findById(result[i].patientId);
+      const doctor = await DoctorModel.findById(result[i].doctorId);
+      result[i] = {
+        ...result[i]._doc,
+        patient: patient.name + " " + patient.lastName,
+        doctor: doctor.name + " " + doctor.lastName,
+        patientEmail: patient.email,
+        patientPhone: patient.phoneNumber
+      }
+    }
 
     res.json({
       state: true,

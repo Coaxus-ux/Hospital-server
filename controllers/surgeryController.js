@@ -7,7 +7,7 @@ const createSurgery = async (req, res) => {
   if (surgery) {
     return res.json({
       state: false,
-      msg: "Ya existe una cirugía con ese nombre",
+      msg: "Ya existe un consultoria con ese nombre",
     });
   }
   try {
