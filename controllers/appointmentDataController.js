@@ -30,6 +30,12 @@ const getAppointmentData = async (req, res) => {
     }
     try{
         const result = await AppointmentDataModel.find({ patientId });
+        if(result.length === 0) {
+            return res.json({
+              state: false,
+              msg: "No hay hisotricas",
+            });
+          }
         for(let i = 0; i < result.length; i++) {
             const doctor = await DoctorModel.findById(result[i].doctorId);
             const patient = await PatientModel.findById(result[i].patientId);
@@ -39,6 +45,7 @@ const getAppointmentData = async (req, res) => {
                 patient: patient.name + " " + patient.lastName,
             }
         }
+        
         res.json({
             state: true,
             result: result,
@@ -47,4 +54,5 @@ const getAppointmentData = async (req, res) => {
         console.log(`Error getting appointment data ${error}`);
     }
 }
+
 export { createAppointmentData, getAppointmentData };

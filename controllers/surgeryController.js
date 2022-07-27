@@ -1,4 +1,5 @@
 import SurgeryModel from "../models/surgeryModel.js";
+import DepartmentModel from "../models/DepartmentModel.js";
 const createSurgery = async (req, res) => {
 
   const { surgeryName } = req.body;
@@ -24,6 +25,13 @@ const createSurgery = async (req, res) => {
 const getSurgeries = async (req, res) => {
     try {
         const surgeries = await SurgeryModel.find({});
+        for(let i = 0; i < surgeries.length; i++){
+            const department = await DepartmentModel.findById(surgeries[i].departmentId);
+            surgeries[i] = {
+                ...surgeries[i]._doc,
+                departmentName: department.departmentName
+            }
+        }
         if(surgeries.length === 0){
             return res.json({
                 state: false,
@@ -39,4 +47,28 @@ const getSurgeries = async (req, res) => {
         console.log(`Error getting surgeries ${error}`);
     }
 }
-export { createSurgery,getSurgeries };
+const updateSurgery = async (req, res) => {
+    const { _id } = req.body;
+    if(!_id) {
+        return res.json({
+            state: false,
+            msg: "El id es requerido"
+        })
+    }
+    try {
+        const surgery = await SurgeryModel.findByIdAndUpdate(_id, req.body);
+        if(!surgery) {
+            return res.json({
+                state: false,
+                msg: "La consultorio no existe"
+            })
+        }
+        res.json({
+            state: true,
+            result: surgery,
+        });
+    } catch (error) {
+        console.log(`Error updating surgery ${error}`);
+    }
+}
+export { createSurgery,getSurgeries, updateSurgery };

@@ -45,4 +45,21 @@ const getMedicines = async (req, res) => {
         });
     }
 }
-export { createMedicine, getMedicines };
+const updateMedicine = async (req, res) => {
+    const {_id} = req.body;
+
+    try{
+        const medicine = await Medicine.findOneAndUpdate(_id, req.body);
+        res.json({
+            state: true,
+            msg: 'Medicina actualizada'
+        });
+    }catch (error) {
+        console.log(`Error updating medicine ${error}`);
+        res.json({
+            state: false,
+            msg: "Error actualizando medicina"
+        });
+    }
+}
+export { createMedicine, getMedicines, updateMedicine };

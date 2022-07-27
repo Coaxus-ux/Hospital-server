@@ -6,4 +6,5 @@ import {
 const router = express.Router();
 router.post("/create-appointmentData", createAppointmentData);
 router.post("/getAppointmentData", getAppointmentData);
+
 export default router;

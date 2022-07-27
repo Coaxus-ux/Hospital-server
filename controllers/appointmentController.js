@@ -32,6 +32,7 @@ const getAppointments = async (req, res) => {
         ...allAppointment[i]._doc,
         doctor: doctor.name + " " + doctor.lastName,
         patient: patient.name + " " + patient.lastName,
+        patientCitizenshipCard: patient.citizenshipCard,
       };
     }
     res.json({
@@ -63,7 +64,6 @@ const getAppointment = async (req, res) => {
         patientPhone: patient.phoneNumber
       }
     }
-
     res.json({
       state: true,
       result: result,
@@ -74,7 +74,6 @@ const getAppointment = async (req, res) => {
 };
 const updateAppointment = async (req, res) => {
   const { id, state, date } = req.body;
-  console.log(id, state, date);
   if (!id || !state || !date) {
     return res.json({
       state: false,
@@ -98,7 +97,7 @@ const updateAppointment = async (req, res) => {
     });
   }
 };
-const deleteAppointment = async (req, res) => {
+const cancelAppointment = async (req, res) => {
   const { id } = req.body;
   if (!id) {
     return res.json({
@@ -107,16 +106,21 @@ const deleteAppointment = async (req, res) => {
     });
   }
   try {
-    const result = await Appointment.findByIdAndDelete(id);
+    const result = await Appointment.findByIdAndUpdate(id,{
+      state: "Cancelada"
+    });
     res.json({
       state: true,
       result: result,
     });
   } catch (error) {
-    console.log(`Error deleting appointment ${error}`);
+    console.log(`Error canceling appointment ${error}`);
+    res.json({
+      state: false,
+      msg: "Error cancelando cita",
+    });
   }
 };
-
 const getAppointmentByuser = async (req, res) => {
   const { patientId } = req.body;
   if (!patientId) {
@@ -126,7 +130,16 @@ const getAppointmentByuser = async (req, res) => {
     });
   }
   try {
-    const result = await Appointment.find({patientId});
+    const result = await Appointment.find({
+      patientId: patientId,
+      state: "Pendiente"
+    } );
+    if(result.length === 0) {
+      return res.json({
+        state: false,
+        msg: "No hay citas pendientes",
+      });
+    }
 
     for(let i = 0; i < result.length; i++) {
       const patient = await PatientModel.findById(result[i].patientId);
@@ -153,12 +166,37 @@ const getAppointmentByuser = async (req, res) => {
     console.log(`Error getting appointment ${error}`);
   }
 }
+const putAppointmentReady = async (req, res) => {
+  const { id } = req.body;
+  if (!id) {
+    return res.json({
+      state: false,
+      msg: "Faltan datos",
+    });
+  }
+  try {
+    const result = await Appointment.findByIdAndUpdate(id,{
+      state: "Lista"
+    });
+    res.json({
+      state: true,
+      result: result,
+    });
+  } catch (error) {
+    console.log(`Error putting appointment ready ${error}`);
+    res.json({
+      state: false,
+      msg: "Error actualizando cita",
+    });
+  }
+}
 
 export {
   createAppointment,
   getAppointments,
   getAppointment,
   updateAppointment,
-  deleteAppointment,
-  getAppointmentByuser
+  cancelAppointment,
+  getAppointmentByuser,
+  putAppointmentReady
 };

@@ -5,7 +5,7 @@ import { passwordRecoveryEmail } from '../helpers/emailSender.js';
 import createID from '../helpers/createID.js';
 
 const passwordRecovery = async (req, res) => {
-  console.log(req.body);
+
   const { email } = req.body;
   const validation = await Promise.all([
     AdminModel.findOne({ email }),

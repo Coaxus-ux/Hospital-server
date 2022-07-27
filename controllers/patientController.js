@@ -35,7 +35,6 @@ const registerPatient = async (req, res) => {
   }
 };
 const getPatientsByCitizenshipCard = async (req, res) => {
-  console.log(req.body);
   const { citizenshipCard } = req.body;
   try {
     const result = await PatientModel.find({ citizenshipCard });

@@ -67,4 +67,28 @@ const getDoctorsById = async (req, res) => {
     console.log(`Error getting doctor  ${error}`);
   }
 }
-export { registerDoctor, getDoctors, getDoctorsById };
+const updateDoctor = async (req, res) => {
+  const { _id } = req.body;
+  if(!_id) {
+    return res.json({
+      state: false,
+      msg: "El id es requerido"
+    })
+  }
+  try {
+    const doctor = await DoctorModel.findByIdAndUpdate(_id, req.body);
+    if(!doctor) {
+      return res.json({
+        state: false,
+        msg: "El doctor no existe"
+      })
+    }
+    res.json({
+      state: true,
+      result: doctor,
+    });
+  } catch (error) {
+    console.log(`Error updating doctor  ${error}`);
+  }
+}
+export { registerDoctor, getDoctors, getDoctorsById, updateDoctor };

@@ -12,7 +12,7 @@ const appointmentDataSchema = mongoose.Schema({
     },
     recomendations: {
         type: String,
-        required: true,
+        default: "Ninguna",
     },
     medicine : {
         type: String,
