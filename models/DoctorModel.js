@@ -58,6 +58,10 @@ const doctorSchema = mongoose.Schema({
     userType:{
         type: String,
         default: "doctor",
+    },
+    imgName:{
+        type: String,
+        default: ""
     }
     
 }, {
@@ -72,6 +76,9 @@ doctorSchema.pre('save', async function(next){
 });
 doctorSchema.methods.comparePassword = async function(password){
     return await bcrypt.compare(password, this.password);
+}
+doctorSchema.methods.setImageName = async function(imageName){
+    this.imgName = imageName;
 }
 const Doctor = mongoose.model("Doctor", doctorSchema);
 export default Doctor;

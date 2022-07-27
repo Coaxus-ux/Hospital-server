@@ -1,11 +1,10 @@
 import DoctorModel from "../models/DoctorModel.js";
 import createID from "../helpers/createID.js";
-import { sendEmail } from "../helpers/emailSender.js";
+import { registerEmail } from "../helpers/emailSender.js";
 import { emailValidator } from "../helpers/emailValidator.js";
 import validator from "../helpers/validatorUnique.js";
 const registerDoctor = async (req, res) => {
   const { email, emploeeId, citizenshipCard } = req.body;
-  // multplie await
   if (!emailValidator(email)) {
     return res.json({
       state: false,
@@ -20,7 +19,7 @@ const registerDoctor = async (req, res) => {
     const doctor = new DoctorModel(req.body);
     doctor.token = createID();
     const result = await doctor.save();
-    sendEmail({
+    registerEmail({
       email: result.email,
       name: result.name,
       token: result.token,
@@ -33,4 +32,63 @@ const registerDoctor = async (req, res) => {
     console.log(`Error creating doctor  ${error}`);
   }
 };
-export { registerDoctor };
+const getDoctors = async (req, res) => {
+  try {
+    const doctors = await DoctorModel.find({});
+    res.json({
+      state: true,
+      result: doctors,
+    });
+  } catch (error) {
+    console.log(`Error getting doctors  ${error}`);
+  }
+}
+const getDoctorsById = async (req, res) => {
+  const { id } = req.body;
+  if(!id) {
+    return res.json({
+      state: false,
+      msg: "El id es requerido"
+    })
+  }
+  try {
+    const doctor = await DoctorModel.findById(id);
+    if(!doctor) {
+      return res.json({
+        state: false,
+        msg: "El doctor no existe"
+      })
+    }
+    res.json({
+      state: true,
+      result: doctor,
+    });
+  } catch (error) {
+    console.log(`Error getting doctor  ${error}`);
+  }
+}
+const updateDoctor = async (req, res) => {
+  const { _id } = req.body;
+  if(!_id) {
+    return res.json({
+      state: false,
+      msg: "El id es requerido"
+    })
+  }
+  try {
+    const doctor = await DoctorModel.findByIdAndUpdate(_id, req.body);
+    if(!doctor) {
+      return res.json({
+        state: false,
+        msg: "El doctor no existe"
+      })
+    }
+    res.json({
+      state: true,
+      result: doctor,
+    });
+  } catch (error) {
+    console.log(`Error updating doctor  ${error}`);
+  }
+}
+export { registerDoctor, getDoctors, getDoctorsById, updateDoctor };
